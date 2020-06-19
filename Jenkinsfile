@@ -23,6 +23,7 @@ pipeline {
     TAG = "${env.DOCKER_REGISTRY_URL}:5000/library/${env.ARTEFACT_ID}"
     TAG_DEV = "${env.TAG}-${env.VERSION}-${env.BUILD_NUMBER}"
     TAG_STAGING = "${env.TAG}-${env.VERSION}"
+    DT_META= GIT_COMMIT=${env.GIT_COMMIT} GIT_URL=${env.GIT_URL} APP_NAME=${env.APP_NAME} BUILD_NUMBER=${env.BUILD_NUMBER}
   }
   stages {
     stage('Maven build') {
@@ -66,6 +67,7 @@ pipeline {
       steps {
         container('kubectl') {
           sh "sed -i 's#image: .*#image: ${env.TAG_DEV}#' manifest/carts.yml"
+          sh "sed -i 's#value: \"DT_CUSTOM_PROP_PLACEHOLDER\".*value: \"${env.DT_META}\"#' manifest/carts.yml"
           sh "kubectl -n dev apply -f manifest/carts.yml"
         }
       }
