@@ -21,7 +21,7 @@ spec:
         - name: DT_TAGS
           value: "product=sockshop BACKEND Owner-Rodrigo "
         - name: DT_CUSTOM_PROP
-          value: "SERVICE_TYPE=BACKEND Owner=Rodrigo CostCenter=Dynatrace"
+          value: "GIT_COMMIT=${env.GIT_COMMIT} GIT_URL=${env.GIT_URL} APP_NAME=${env.APP_NAME} BUILD_NUMBER=${env.BUILD_NUMBER}"
         resources:
           limits:
             cpu: 500m
